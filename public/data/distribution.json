@@ -1,0 +1,167 @@
+[
+  {
+    "geoId": "ID-JK",
+    "name": "DKI JAKARTA",
+    "total": 1237
+  },
+  {
+    "geoId": "ID-JB",
+    "name": "JAWA BARAT",
+    "total": 257
+  },
+  {
+    "geoId": "ID-JI",
+    "name": "JAWA TIMUR",
+    "total": 199
+  },
+  {
+    "geoId": "ID-JT",
+    "name": "JAWA TENGAH",
+    "total": 124
+  },
+  {
+    "geoId": "ID-BT",
+    "name": "BANTEN",
+    "total": 107
+  },
+  {
+    "geoId": "ID-YO",
+    "name": "DI YOGYAKARTA",
+    "total": 77
+  },
+  {
+    "geoId": "ID-SU",
+    "name": "SUMATERA UTARA",
+    "total": 48
+  },
+  {
+    "geoId": "ID-KR",
+    "name": "KEPULAUAN RIAU",
+    "total": 39
+  },
+  {
+    "geoId": "ID-BA",
+    "name": "BALI",
+    "total": 37
+  },
+  {
+    "geoId": "ID-SN",
+    "name": "SULAWESI SELATAN",
+    "total": 35
+  },
+  {
+    "geoId": "ID-LA",
+    "name": "LAMPUNG",
+    "total": 31
+  },
+  {
+    "geoId": "ID-RI",
+    "name": "RIAU",
+    "total": 31
+  },
+  {
+    "geoId": "ID-SS",
+    "name": "SUMATERA SELATAN",
+    "total": 27
+  },
+  {
+    "geoId": "ID-KI",
+    "name": "KALIMANTAN TIMUR",
+    "total": 23
+  },
+  {
+    "geoId": "ID-SB",
+    "name": "SUMATERA BARAT",
+    "total": 22
+  },
+  {
+    "geoId": "ID-SA",
+    "name": "SULAWESI UTARA",
+    "total": 13
+  },
+  {
+    "geoId": "ID-KB",
+    "name": "KALIMANTAN BARAT",
+    "total": 13
+  },
+  {
+    "geoId": "ID-KS",
+    "name": "KALIMANTAN SELATAN",
+    "total": 12
+  },
+  {
+    "geoId": "ID-JA",
+    "name": "JAMBI",
+    "total": 11
+  },
+  {
+    "geoId": "ID-AC",
+    "name": "ACEH",
+    "total": 11
+  },
+  {
+    "geoId": "ID-NB",
+    "name": "NUSA TENGGARA BARAT",
+    "total": 10
+  },
+  {
+    "geoId": "ID-PA",
+    "name": "PAPUA",
+    "total": 7
+  },
+  {
+    "geoId": "ID-GO",
+    "name": "GORONTALO",
+    "total": 7
+  },
+  {
+    "geoId": "ID-ST",
+    "name": "SULAWESI TENGAH",
+    "total": 7
+  },
+  {
+    "geoId": "ID-SG",
+    "name": "SULAWESI TENGGARA",
+    "total": 5
+  },
+  {
+    "geoId": "ID-KT",
+    "name": "KALIMANTAN TENGAH",
+    "total": 5
+  },
+  {
+    "geoId": "ID-NT",
+    "name": "NUSA TENGGARA TIMUR",
+    "total": 4
+  },
+  {
+    "geoId": "ID-BB",
+    "name": "KEPULAUAN BANGKA BELITUNG",
+    "total": 4
+  },
+  {
+    "geoId": "ID-PB",
+    "name": "PAPUA BARAT",
+    "total": 3
+  },
+  {
+    "geoId": "ID-MU",
+    "name": "MALUKU UTARA",
+    "total": 2
+  },
+  {
+    "geoId": "ID-MA",
+    "name": "MALUKU",
+    "total": 2
+  },
+  {
+    "geoId": "ID-SR",
+    "name": "SULAWESI BARAT",
+    "total": 1
+  },
+  {
+    "geoId": "ID-KU",
+    "name": "KALIMANTAN UTARA",
+    "total": 1
+  }
+]

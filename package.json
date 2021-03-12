@@ -8,8 +8,17 @@
     "start": "next start"
   },
   "dependencies": {
+    "@amcharts/amcharts4": "^4.10.16",
+    "autoprefixer": "^10.2.5",
+    "axios": "^0.21.1",
+    "d3": "^6.6.0",
+    "gridjs": "^3.3.0",
+    "gridjs-react": "^3.2.2",
     "next": "10.0.8",
+    "postcss": "^8.2.8",
     "react": "17.0.1",
-    "react-dom": "17.0.1"
+    "react-dom": "17.0.1",
+    "sass": "^1.32.8",
+    "tailwindcss": "^2.0.3"
   }
 }

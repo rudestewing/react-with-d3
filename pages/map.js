@@ -8,7 +8,7 @@ const PageComponent = () => {
         {{
           content: (
             <div className="container mx-auto py-10">
-              <div>Home</div>
+              <div>Map</div>
             </div>
           ),
         }}
