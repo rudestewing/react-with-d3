@@ -7,6 +7,7 @@ import {
   axisLeft,
   axisBottom,
   format,
+  scalePoint,
 } from 'd3'
 import styles from './BarChart.module.scss'
 import { useEffect, useRef } from 'react'
@@ -38,8 +39,9 @@ const BarChart = () => {
       const xScale = scaleLinear()
         .domain([0, max(data, (d) => d.population)])
         .range([0, innerWidth])
+        .nice()
 
-      const yScale = scaleBand()
+      const yScale = scalePoint()
         .domain(data.map((d) => d.country))
         .range([0, innerHeight])
         .padding(0.21)
@@ -49,7 +51,7 @@ const BarChart = () => {
         .tickFormat((number) => format('.3s')(number).replace('G', 'B'))
         .tickSize(-innerHeight)
 
-      const yAxis = axisLeft(yScale)
+      const yAxis = axisLeft(yScale).tickSize(-innerWidth)
 
       const g = svg
         .append('g')
@@ -57,7 +59,8 @@ const BarChart = () => {
 
       const xAxisG = g.append('g').call(yAxis).style('font-size', '1.1rem')
 
-      xAxisG.selectAll('.domain, .tick line').remove()
+      xAxisG.selectAll('.domain').remove()
+      xAxisG.selectAll('.tick line').attr('stroke', 'lightgray')
 
       const yAxisG = g
         .append('g')
@@ -66,22 +69,18 @@ const BarChart = () => {
         .attr('transform', `translate(0, ${innerHeight})`)
 
       yAxisG.selectAll('.domain').remove()
+      yAxisG.selectAll('.tick line').attr('stroke', 'lightgray')
 
-      g.selectAll('rect')
+      g.selectAll('circle')
         .data(data)
         .enter()
-        .append('rect')
-        .attr('y', (d) => yScale(d.country))
-        // .attr('width', (d) => xScale(d.population))
-        .attr('width', 0)
-        .attr('height', yScale.bandwidth())
-        .attr('fill', 'teal')
-
-      g.selectAll('rect')
+        .append('circle')
+        .attr('cy', (d) => yScale(d.country))
+        .attr('cx', (d) => xScale(d.population))
+        .attr('r', 10)
+        .attr('fill', 'steelblue')
         .transition()
-        .duration(1000)
-        .attr('width', (d) => xScale(d.population))
-        .delay((d, i) => i * 100)
+        .duration(2000)
 
       g.append('text')
         .text('Top 10 most popular countries')
@@ -93,8 +92,7 @@ const BarChart = () => {
       data.forEach((d) => {
         d.population = +d.population * 1000
       })
-
-      renderChart([...data].sort((a, b) => b.population - a.population))
+      renderChart(data)
     })
   }
 
