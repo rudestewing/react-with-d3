@@ -90,11 +90,13 @@ const BarChart = () => {
         .attr('cy', (d) => yScale(yValue(d)))
         .attr('cx', (d) => xScale(xValue(d)))
         .attr('r', circleRadius)
+        .attr('fill', 'steelblue')
+        .style('opacity', '0.5')
 
       g.append('text').attr('class', 'title').attr('y', -10).text(title)
     }
 
-    csv('https://vizhub.com/curran/datasets/auto-mpg.csv').then((data) => {
+    csv('/data/auto-mpg.csv').then((data) => {
       data.forEach((d) => {
         d.mpg = +d.mpg
         d.cylinders = +d.cylinders
