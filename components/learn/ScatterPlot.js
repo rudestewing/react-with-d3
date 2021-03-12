@@ -8,6 +8,8 @@ import {
   axisBottom,
   format,
   scalePoint,
+  min,
+  extent,
 } from 'd3'
 import styles from './BarChart.module.scss'
 import { useEffect, useRef } from 'react'
@@ -22,76 +24,87 @@ const BarChart = () => {
     const height = parseFloat(svg.attr('height'))
 
     const renderChart = (data) => {
-      const margin = {
-        top: 50,
-        right: 20,
-        bottom: 50,
-        left: 100,
-      }
+      const title = 'Cars: Horsepower vs. Weight'
 
-      const xValue = (d) => d.population
-      const yValue = (d) => d.country
+      const xValue = (d) => d.horsepower
+      const xAxisLabel = 'Horsepower'
 
-      const innerHeight = height - margin.top - margin.bottom
+      const yValue = (d) => d.weight
+      const circleRadius = 10
+      const yAxisLabel = 'Weight'
+
+      const margin = { top: 60, right: 40, bottom: 88, left: 150 }
       const innerWidth = width - margin.left - margin.right
+      const innerHeight = height - margin.top - margin.bottom
 
-      // Scale X & Y
       const xScale = scaleLinear()
-        .domain([0, max(data, (d) => d.population)])
+        .domain(extent(data, xValue))
         .range([0, innerWidth])
         .nice()
 
-      const yScale = scalePoint()
-        .domain(data.map((d) => d.country))
-        .range([0, innerHeight])
-        .padding(0.21)
-
-      // Axis X & Y
-      const xAxis = axisBottom(xScale)
-        .tickFormat((number) => format('.3s')(number).replace('G', 'B'))
-        .tickSize(-innerHeight)
-
-      const yAxis = axisLeft(yScale).tickSize(-innerWidth)
+      const yScale = scaleLinear()
+        .domain(extent(data, yValue))
+        .range([innerHeight, 0])
+        .nice()
 
       const g = svg
         .append('g')
-        .attr('transform', `translate(${margin.left}, ${margin.top})`)
+        .attr('transform', `translate(${margin.left},${margin.top})`)
 
-      const xAxisG = g.append('g').call(yAxis).style('font-size', '1.1rem')
+      const xAxis = axisBottom(xScale).tickSize(-innerHeight).tickPadding(15)
 
-      xAxisG.selectAll('.domain').remove()
-      xAxisG.selectAll('.tick line').attr('stroke', 'lightgray')
+      const yAxis = axisLeft(yScale).tickSize(-innerWidth).tickPadding(10)
 
-      const yAxisG = g
+      const yAxisG = g.append('g').call(yAxis)
+      yAxisG.selectAll('.domain').remove()
+
+      yAxisG
+        .append('text')
+        .attr('class', 'axis-label')
+        .attr('y', -93)
+        .attr('x', -innerHeight / 2)
+        .attr('fill', 'black')
+        .attr('transform', `rotate(-90)`)
+        .attr('text-anchor', 'middle')
+        .text(yAxisLabel)
+
+      const xAxisG = g
         .append('g')
         .call(xAxis)
-        .style('font-size', '1.1rem')
-        .attr('transform', `translate(0, ${innerHeight})`)
+        .attr('transform', `translate(0,${innerHeight})`)
 
-      yAxisG.selectAll('.domain').remove()
-      yAxisG.selectAll('.tick line').attr('stroke', 'lightgray')
+      xAxisG.select('.domain').remove()
+
+      xAxisG
+        .append('text')
+        .attr('class', 'axis-label')
+        .attr('y', 75)
+        .attr('x', innerWidth / 2)
+        .attr('fill', 'black')
+        .text(xAxisLabel)
 
       g.selectAll('circle')
         .data(data)
         .enter()
         .append('circle')
-        .attr('cy', (d) => yScale(d.country))
-        .attr('cx', (d) => xScale(d.population))
-        .attr('r', 10)
-        .attr('fill', 'steelblue')
-        .transition()
-        .duration(2000)
+        .attr('cy', (d) => yScale(yValue(d)))
+        .attr('cx', (d) => xScale(xValue(d)))
+        .attr('r', circleRadius)
 
-      g.append('text')
-        .text('Top 10 most popular countries')
-        .attr('y', -10)
-        .attr('class', 'chart-title')
+      g.append('text').attr('class', 'title').attr('y', -10).text(title)
     }
 
-    csv('/data/country.csv').then((data) => {
+    csv('https://vizhub.com/curran/datasets/auto-mpg.csv').then((data) => {
       data.forEach((d) => {
-        d.population = +d.population * 1000
+        d.mpg = +d.mpg
+        d.cylinders = +d.cylinders
+        d.displacement = +d.displacement
+        d.horsepower = +d.horsepower
+        d.weight = +d.weight
+        d.acceleration = +d.acceleration
+        d.year = +d.year
       })
+
       renderChart(data)
     })
   }
