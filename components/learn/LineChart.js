@@ -9,6 +9,8 @@ import {
   axisLeft,
   select,
   extent,
+  line,
+  curveBasis,
 } from 'd3'
 
 /**
@@ -62,20 +64,18 @@ const LineChart = () => {
 
     const yAxisGroup = contentGroup.append('g').call(yAxis)
 
-    // xAxisGroup.selectAll('.tick line').attr('stroke', 'lightgray')
-    // yAxisGroup.selectAll('.tick line').attr('stroke', 'lightgray')
+    const lineGenerator = line()
+      .x((d) => xScale(d.timestamp))
+      .y((d) => yScale(d.temperature))
+      .curve(curveBasis)
 
     contentGroup
-      .selectAll('circle')
-      .data(data)
-      .enter()
-      .append('circle')
-      .attr('r', 10)
-      .attr('cy', (d) => yScale(d.temperature))
-      .attr('cx', (d) => xScale(d.timestamp))
-      .attr('fill', 'steelblue')
-      .style('opacity', 0.5)
-      .attr('transform', `translate(${margin.left}, ${margin.top})`)
+      .append('path')
+      .attr('stroke', 'orange')
+      .attr('d', lineGenerator(data))
+      .attr('fill', 'none')
+      .attr('stroke-width', 3)
+      .style('stroke-linejoin', 'round')
 
     contentGroup.selectAll('.domain, .tick line').attr('stroke', 'lightgray')
   }
