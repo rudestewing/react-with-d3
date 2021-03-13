@@ -94,6 +94,8 @@ const BarChart = () => {
         .style('opacity', '0.5')
 
       g.append('text').attr('class', 'title').attr('y', -10).text(title)
+
+      g.selectAll('.domain, .tick line').attr('stroke', 'lightgray')
     }
 
     csv('/data/auto-mpg.csv').then((data) => {
