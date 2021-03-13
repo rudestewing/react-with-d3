@@ -11,6 +11,7 @@ import {
   extent,
   area,
   curveBasis,
+  format,
 } from 'd3'
 
 /**
@@ -22,9 +23,9 @@ import {
 const AreaChart = () => {
   const svgRef = useRef(null)
 
-  const title = 'Temperature in San Francisco'
-  const yAxisLabel = 'Temperature (celcius)'
-  const xAxisLabel = 'Time'
+  const title = 'World Population by Year'
+  const yAxisLabel = 'Population'
+  const xAxisLabel = 'Year'
 
   function renderChart(data) {
     const svg = select(svgRef.current)
@@ -37,22 +38,48 @@ const AreaChart = () => {
     const innerWidth = width - margin.left - margin.right
     const innerHeight = height - margin.top - margin.bottom
 
+    const xValue = (d) => d.year
+    const yValue = (d) => d.population
+
     const contentGroup = svg
       .append('g')
+      .attr('class', 'content-group')
       .attr('transform', `translate(${margin.left} ${margin.top})`)
 
+    contentGroup
+      .append('text')
+      .text(title)
+      .attr('y', -20)
+      .attr('x', innerWidth / 2)
+      .attr('fill', 'black')
+      .attr('text-anchor', 'middle')
+      .attr('font-size', `1.2rem`)
+
     const xScale = scaleTime()
-      .domain(extent(data, (d) => d.timestamp))
+      .domain(extent(data, xValue))
       .range([0, innerWidth])
 
     const yScale = scaleLinear()
-      .domain(extent(data, (d) => d.temperature))
+      .domain([0, max(data, yValue)])
       .range([innerHeight, 0])
       .nice()
 
+    const areaGenerator = area()
+      .x((d) => xScale(xValue(d)))
+      .y0(innerHeight)
+      .y1((d) => yScale(yValue(d)))
+      .curve(curveBasis)
+
+    contentGroup
+      .append('path')
+      .attr('d', areaGenerator(data))
+      .attr('fill', 'steelblue')
+
     const xAxis = axisBottom(xScale).tickSize(-innerHeight).ticks(5)
 
-    const yAxis = axisLeft(yScale).tickSize(-innerWidth)
+    const yAxis = axisLeft(yScale)
+      .tickSize(-innerWidth)
+      .tickFormat((number) => format('.1s')(number).replace('G', 'B'))
 
     const xAxisGroup = contentGroup
       .append('g')
@@ -80,25 +107,15 @@ const AreaChart = () => {
       .attr('text-anchor', 'middle')
       .attr('font-size', `1.2rem`)
 
-    const areaGenerator = area()
-      .x((d) => xScale(d.timestamp))
-      .y0(innerHeight)
-      .y1((d) => yScale(d.temperature))
-      .curve(curveBasis)
-
-    contentGroup
-      .append('path')
-      .attr('d', areaGenerator(data))
-      .attr('fill', 'steelblue')
-
     contentGroup.selectAll('.domain, .tick line').attr('stroke', 'lightgray')
   }
 
   function main() {
-    csv('/data/temperature-in-san-francisco.csv').then((data) => {
+    csv('/data/world-population-by-year-2015.csv').then((data) => {
+      console.log(data)
       data.forEach((d) => {
-        d.temperature = parseFloat(d.temperature)
-        d.timestamp = new Date(d.timestamp)
+        d.population = parseFloat(d.population)
+        d.year = new Date(d.year)
       })
 
       renderChart(data)
