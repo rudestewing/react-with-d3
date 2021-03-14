@@ -23,16 +23,13 @@ const LineChart = () => {
   const svgRef = useRef(null)
 
   const title = 'Temperature in San Francisco'
+  const yAxisLabel = 'Temperature'
+  const xAxisLabel = 'Time'
 
   function renderChart(data) {
     const svg = select(svgRef.current)
 
-    const margin = {
-      top: 20,
-      left: 20,
-      right: 20,
-      bottom: 20,
-    }
+    const margin = { top: 60, right: 40, bottom: 88, left: 150 }
 
     const width = parseFloat(svg.attr('width'))
     const height = parseFloat(svg.attr('height'))
@@ -43,6 +40,15 @@ const LineChart = () => {
     const contentGroup = svg
       .append('g')
       .attr('transform', `translate(${margin.left} ${margin.top})`)
+
+    contentGroup
+      .append('text')
+      .text(title)
+      .attr('y', -20)
+      .attr('x', innerWidth / 2)
+      .attr('fill', 'black')
+      .attr('text-anchor', 'middle')
+      .attr('font-size', `1.2rem`)
 
     const xScale = scaleTime()
       .domain(extent(data, (d) => d.timestamp))
@@ -62,7 +68,26 @@ const LineChart = () => {
       .attr('transform', `translate(0, ${innerHeight})`)
       .call(xAxis)
 
+    xAxisGroup
+      .append('text')
+      .text(xAxisLabel)
+      .attr('fill', 'black')
+      .attr('y', 30)
+      .attr('x', innerWidth / 2)
+      // .attr('text-anchor', 'middle')
+      .attr('font-size', '1.2rem')
+
     const yAxisGroup = contentGroup.append('g').call(yAxis)
+
+    yAxisGroup
+      .append('text')
+      .text(yAxisLabel)
+      .attr('y', -60)
+      .attr('x', -innerHeight / 2)
+      .attr('fill', 'black')
+      .attr('transform', `rotate(-90)`)
+      .attr('text-anchor', 'middle')
+      .attr('font-size', `1.2rem`)
 
     const lineGenerator = line()
       .x((d) => xScale(d.timestamp))

@@ -1,0 +1,10 @@
+.world-map-chart {
+  .country {
+    stroke: lightgray;
+    stroke-width: 0.3;
+    fill: steelblue;
+    &:hover {
+      fill: red;
+    }
+  }
+}

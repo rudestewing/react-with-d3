@@ -2,15 +2,13 @@ import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import { Fragment } from 'react'
 
-const IntroductionD3 = dynamic(() =>
-  import('@/components/learn/IntroductionD3')
-)
+const GeneralUpdate = dynamic(() => import('@/components/demo/GeneralUpdate'))
 
 const PageComponent = () => {
   return (
     <Fragment>
       <div>
-        <IntroductionD3 />
+        <GeneralUpdate />
       </div>
     </Fragment>
   )
