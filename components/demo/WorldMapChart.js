@@ -30,7 +30,7 @@ const WorldMapChart = () => {
       .attr('d', pathRef.current)
       .attr('class', 'country')
       .append('title')
-      .text((d) => console.log(d.properties))
+      .text((d) => d.properties.name)
   }
 
   function fetchData() {
