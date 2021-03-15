@@ -13,7 +13,12 @@ import {
   scaleLinear,
   range,
   axisBottom,
+  scaleQuantile,
+  scaleOrdinal,
+  format,
 } from 'd3'
+
+import legend from '../../utils/extensions/d3/color-legend'
 
 import { feature } from 'topojson-client'
 
@@ -59,6 +64,7 @@ const WorldMapChart = () => {
       populationById[d.id] = parseFloat(d.population)
     })
 
+    console.log(chartData.populationData)
     countries.features.forEach((d) => {
       d.population = populationById[d.id] || 0
     })
@@ -78,6 +84,21 @@ const WorldMapChart = () => {
       .range(schemeBlues[7])
 
     const contentGroup = svg.append('g').attr('class', 'content-group')
+
+    const legendGroup = svg
+      .append(() => {
+        return legend({
+          color: scaleThreshold(
+            [...scaleValues].map((d) => format('.3s')(d).replace('G', 'B')),
+            schemeBlues[7]
+          ),
+          title: '',
+          tickSize: 1,
+        })
+      })
+      .attr('class', 'legend')
+
+    legendGroup.attr('transform', `translate(${innerWidth}, ${innerHeight} )`)
 
     svg.call(
       zoom().on('zoom', (e) => {
@@ -101,6 +122,7 @@ const WorldMapChart = () => {
         console.log('mouseout')
         // process tooltip here
       })
+      .attr('transform', `translate(${margin.left}, ${margin.top})`)
   }
 
   function fetchData() {
@@ -112,7 +134,9 @@ const WorldMapChart = () => {
         setChartData((state) => {
           return {
             worldMapData,
-            populationData,
+            populationData: [...populationData].sort(
+              (a, b) => b.population - a.population
+            ),
           }
         })
       })
