@@ -1,8 +1,9 @@
 .world-map-chart {
   .country {
-    stroke: lightgray;
-    stroke-width: 0.3;
-    fill: steelblue;
+    stroke: black;
+    stroke-width: 0.10px;
+    fill: #a1d4f0;
+    stroke-opacity: 0.3;
     &:hover {
       fill: red;
     }

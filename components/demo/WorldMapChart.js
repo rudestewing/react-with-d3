@@ -1,5 +1,6 @@
 import { useRef, useEffect, useState } from 'react'
-import { csv, json, geoPath, geoMercator, svg, select } from 'd3'
+import { csv, json, geoPath, geoMercator, svg, select, zoom } from 'd3'
+
 import { feature } from 'topojson-client'
 
 /**
@@ -12,17 +13,36 @@ const WorldMapChart = () => {
   const svgRef = useRef(null)
   const projectionRef = useRef(geoMercator())
   const pathRef = useRef(null)
-  const [data, setData] = useState(null)
+
+  const [chartData, setChartData] = useState({
+    worldMapData: null,
+    populationData: null,
+  })
 
   const svg = select(svgRef.current)
 
   const title = 'World Map Chart'
 
   function renderChart() {
+    // console.log(chartData)
     pathRef.current = geoPath().projection(projectionRef.current)
-    const countries = feature(data, data.objects.countries)
 
-    svg
+    const countries = feature(
+      chartData.worldMapData,
+      chartData.worldMapData.objects.countries
+    )
+
+    console.log(countries)
+
+    const contentGroup = svg.append('g')
+
+    svg.call(
+      zoom().on('zoom', (e) => {
+        contentGroup.attr('transform', e.transform)
+      })
+    )
+
+    contentGroup
       .selectAll('path')
       .data(countries.features)
       .enter()
@@ -34,9 +54,21 @@ const WorldMapChart = () => {
   }
 
   function fetchData() {
-    json('/data/world-atlas-topology-json.json').then((data) => {
-      setData(data)
-    })
+    Promise.all([
+      json('/data/world-atlas-topology-json.json'),
+      csv('/data/world-population.csv'),
+    ])
+      .then(([worldMapData, populationData]) => {
+        setChartData((state) => {
+          return {
+            worldMapData,
+            populationData,
+          }
+        })
+      })
+      .catch((error) => {
+        console.log(error)
+      })
   }
 
   useEffect(() => {
@@ -44,8 +76,8 @@ const WorldMapChart = () => {
   }, [])
 
   useEffect(() => {
-    if (data) renderChart()
-  }, [data])
+    if (chartData.worldMapData && chartData.populationData) renderChart()
+  }, [chartData])
 
   return (
     <div>
