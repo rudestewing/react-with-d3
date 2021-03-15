@@ -1,0 +1,13 @@
+.world-map-population {
+  .country {
+    stroke: black;
+    stroke-width: 0.10px;
+    stroke-opacity: 0.3;
+    &:hover {
+      // fill: red;
+      stroke: red;
+      stroke-opacity: 1;
+      stroke-width: 1px;
+    }
+  }
+}

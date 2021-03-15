@@ -20,7 +20,7 @@ const DemoLayout = ({ children }) => {
       path: '/demo/d3-area',
     },
     {
-      title: 'World Map',
+      title: 'World Map Population',
       path: '/demo/d3-world-map',
     },
     {
