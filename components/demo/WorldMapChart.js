@@ -117,6 +117,18 @@ const WorldMapChart = () => {
       })
     )
 
+    const tooltip = select('body')
+      .append('div')
+      .style('opacity', 0)
+      .attr('class', 'tooltip')
+      .style('background-color', 'white')
+      .style('border', 'solid')
+      .style('border-width', '2px')
+      .style('border-radius', '5px')
+      .style('padding', '5px')
+      .style('z-index', 50)
+      .style('position', 'absolute')
+
     contentGroup
       .selectAll('path')
       .data(countries.features)
@@ -126,12 +138,24 @@ const WorldMapChart = () => {
       .attr('class', 'country')
       .attr('fill', (d) => colorScale(d.population))
       .on('mouseover', (e, d) => {
-        // console.log('mouseover')
-        // process tooltip here
+        tooltip.style('opacity', 1)
+      })
+      .on('mousemove', (e, d) => {
+        tooltip
+          .html(
+            `
+          <div>
+            <div class="text-sm"> Population: </div>
+            <div class="font-semibold tracking-wider"> ${d.properties.name} </div>
+            <div class="text-sm">${d.population} </div>
+          </div>
+          `
+          )
+          .style('left', `${parseFloat(e['x']) + 10}px`)
+          .style('top', `${parseFloat(e['y'])}px`)
       })
       .on('mouseout', (e, d) => {
-        // console.log('mouseout')
-        // process tooltip here
+        tooltip.style('opacity', 0)
       })
       .attr('transform', `translate(${margin.left}, ${margin.top})`)
   }
