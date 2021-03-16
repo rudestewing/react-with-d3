@@ -9,9 +9,11 @@ import {
   schemeGreens,
   schemeAccent,
   schemeOranges,
+  format,
 } from 'd3'
 import { useCallback, useEffect, useRef, useState, useMemo } from 'react'
 import { feature } from 'topojson-client'
+import legend from '../../utils/extensions/d3/color-legend'
 
 const IdnicMemberDistributionChart = () => {
   const svgRef = useRef(null)
@@ -65,9 +67,24 @@ const IdnicMemberDistributionChart = () => {
 
     setFeatureData([...provinces.features])
 
+    const scaleValues = [1, 5, 10, 30, 50, 100, 200, 300]
+
     const colorScale = scaleThreshold()
-      .domain([1, 5, 10, 30, 50, 100, 200, 300])
+      .domain(scaleValues)
       .range(schemeBlues[8])
+
+    const legendGroup = svg.append('g').attr('class', 'legend')
+
+    legendGroup.append(() => {
+      return legend({
+        color: scaleThreshold(
+          [...scaleValues].map((d) => format('.3s')(d).replace('G', 'B')),
+          schemeBlues[8]
+        ),
+        title: '',
+        tickSize: 1,
+      })
+    })
 
     svg.call(
       zoom().on('zoom', (e) => {
