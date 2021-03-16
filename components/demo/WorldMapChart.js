@@ -28,7 +28,7 @@ import legend from '../../utils/extensions/d3/color-legend'
 
 const WorldMapChart = () => {
   const svgRef = useRef(null)
-  const projection = useMemo(() => geoNaturalEarth1())
+  const projection = useMemo(() => geoNaturalEarth1().translate([400, 250]))
   const path = useMemo(() => geoPath().projection(projection))
 
   const [chartData, setChartData] = useState({
@@ -48,7 +48,7 @@ const WorldMapChart = () => {
       bottom: 20,
     }
 
-    const width = +svg.attr('width')
+    const width = svgRef.current.clientWidth
     const height = +svg.attr('height')
 
     const innerWidth = width - margin.left - margin.right

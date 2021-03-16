@@ -52,7 +52,7 @@ const DemoLayout = ({ children }) => {
                           ? 'text-blue-900 bg-white'
                           : 'text-white'
                       }
-                      hover:text-blue-900 hover:bg-white `}
+                      hover:text-blue-900 hover:bg-white text-xs`}
                     >
                       {menu.title}
                     </a>
