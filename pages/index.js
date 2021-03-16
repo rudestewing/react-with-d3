@@ -4,7 +4,12 @@ import { Fragment } from 'react'
 const PageComponent = () => {
   return (
     <Fragment>
-      <SiteLayout>
+      <div>
+        <a href="/demo/" className="underline">
+          Go to Demo
+        </a>
+      </div>
+      {/* <SiteLayout>
         {{
           content: (
             <div className="container mx-auto py-10">
@@ -12,7 +17,7 @@ const PageComponent = () => {
             </div>
           ),
         }}
-      </SiteLayout>
+      </SiteLayout> */}
     </Fragment>
   )
 }

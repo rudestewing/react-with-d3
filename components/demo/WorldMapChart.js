@@ -125,7 +125,7 @@ const WorldMapChart = () => {
       .style('border', 'solid')
       .style('border-width', '2px')
       .style('border-radius', '5px')
-      .style('padding', '5px')
+      .style('padding', '8px')
       .style('z-index', 50)
       .style('position', 'absolute')
 
@@ -146,8 +146,14 @@ const WorldMapChart = () => {
             `
           <div>
             <div class="text-sm"> Population: </div>
-            <div class="font-semibold tracking-wider"> ${d.properties.name} </div>
-            <div class="text-sm">${d.population} </div>
+            <div class="font-semibold tracking-wider"> ${
+              d.properties.name
+            } </div>
+            <div class="text-sm">${format(',')(d.population)} </div>
+            <div class="text-sm">${format('.3s')(d.population).replace(
+              'G',
+              'B'
+            )} </div>
           </div>
           `
           )

@@ -30,17 +30,25 @@ const DemoLayout = ({ children }) => {
       title: 'Idnic Member Distribution',
       path: '/demo/d3-idnic-member-distribution',
     },
+    {
+      title: 'World Map Covid Case',
+      path: '/demo/d3-world-map-covid-case',
+    },
+    {
+      title: 'APJII-IDNIC Data Center Locations',
+      path: '/demo/d3-apjii-idnic-data-center-location',
+    },
   ]
 
   return (
-    <div>
+    <div className="h-full">
       <div className="w-full block p-3 bg-blue-900">
         <h3 className="text-left font-semibold text-white tracking-wider">
           Exercise Chart with d3JS
         </h3>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 ">
-        <div className="col-span-1 lg:col-span-2 h-full bg-blue-800">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 h-full">
+        <div className="col-span-1 lg:col-span-2 h-auto lg:h-full bg-blue-800">
           <ul>
             {menus.map((menu) => {
               return (
@@ -54,7 +62,7 @@ const DemoLayout = ({ children }) => {
                       }
                       hover:text-blue-900 hover:bg-white text-xs`}
                     >
-                      {menu.title}
+                      <span>{menu.title}</span>
                     </a>
                   </Link>
                 </li>

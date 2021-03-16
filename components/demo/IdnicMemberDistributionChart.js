@@ -148,7 +148,7 @@ const IdnicMemberDistributionChart = () => {
         ref={svgRef}
       ></svg>
       <div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+        {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
           {featureData.length && (
             <table
               width="100%"
@@ -204,7 +204,7 @@ const IdnicMemberDistributionChart = () => {
               </tbody>
             </table>
           )}
-        </div>
+        </div> */}
       </div>
     </div>
   )
