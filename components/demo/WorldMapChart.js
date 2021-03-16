@@ -20,8 +20,6 @@ import {
 
 import legend from '../../utils/extensions/d3/color-legend'
 
-import { feature } from 'topojson-client'
-
 /**
  *  1. Create Group for positioning by append('g')
  *  2. Create Scale
@@ -85,24 +83,37 @@ const WorldMapChart = () => {
 
     const contentGroup = svg.append('g').attr('class', 'content-group')
 
-    const legendGroup = svg
-      .append(() => {
-        return legend({
-          color: scaleThreshold(
-            [...scaleValues].map((d) => format('.3s')(d).replace('G', 'B')),
-            schemeBlues[7]
-          ),
-          title: '',
-          tickSize: 1,
-        })
-      })
-      .attr('class', 'legend')
+    const legendGroup = svg.append('g').attr('class', 'legend')
 
-    legendGroup.attr('transform', `translate(${innerWidth}, ${innerHeight} )`)
+    legendGroup.append(() => {
+      return legend({
+        color: scaleThreshold(
+          [...scaleValues].map((d) => format('.3s')(d).replace('G', 'B')),
+          schemeBlues[7]
+        ),
+        title: '',
+        tickSize: 1,
+      })
+    })
 
     svg.call(
       zoom().on('zoom', (e) => {
-        contentGroup.attr('transform', e.transform)
+        const t = e.transform
+        const h = 0
+        const s = t['k'] >= 1 ? t['k'] : 1
+
+        t['x'] = Math.min(
+          (innerWidth / innerHeight) * (s - 1),
+          Math.max(innerWidth * (1 - s), t['x'])
+        )
+
+        t['y'] = Math.min(
+          h * (s - 1) + h * s,
+          Math.max(innerHeight * (1 - s) - h * s, t['y'])
+        )
+
+        t['k'] = s
+        contentGroup.attr('transform', t)
       })
     )
 
@@ -115,11 +126,11 @@ const WorldMapChart = () => {
       .attr('class', 'country')
       .attr('fill', (d) => colorScale(d.population))
       .on('mouseover', (e, d) => {
-        console.log('mouseover')
+        // console.log('mouseover')
         // process tooltip here
       })
       .on('mouseout', (e, d) => {
-        console.log('mouseout')
+        // console.log('mouseout')
         // process tooltip here
       })
       .attr('transform', `translate(${margin.left}, ${margin.top})`)
