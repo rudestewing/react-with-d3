@@ -119,7 +119,7 @@ const WorldMapChart = () => {
 
     const tooltip = select('body')
       .append('div')
-      .style('opacity', 0)
+      .style('display', 'none')
       .attr('class', 'tooltip')
       .style('background-color', 'white')
       .style('border', 'solid')
@@ -138,7 +138,7 @@ const WorldMapChart = () => {
       .attr('class', 'country')
       .attr('fill', (d) => colorScale(d.population))
       .on('mouseover', (e, d) => {
-        tooltip.style('opacity', 1)
+        tooltip.style('display', 'block')
       })
       .on('mousemove', (e, d) => {
         tooltip
@@ -155,7 +155,7 @@ const WorldMapChart = () => {
           .style('top', `${parseFloat(e['y'])}px`)
       })
       .on('mouseout', (e, d) => {
-        tooltip.style('opacity', 0)
+        tooltip.style('display', 'none')
       })
       .attr('transform', `translate(${margin.left}, ${margin.top})`)
   }
