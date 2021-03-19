@@ -91,7 +91,13 @@ const BarChart = () => {
         .attr('cx', (d) => xScale(xValue(d)))
         .attr('r', circleRadius)
         .attr('fill', 'steelblue')
-        .style('opacity', '0.5')
+        .style('opacity', 0)
+
+      g.selectAll('circle')
+        .transition()
+        .duration(500)
+        .style('opacity', 0.5)
+        .delay((d, i) => i * 1)
 
       g.append('text').attr('class', 'title').attr('y', -10).text(title)
 

@@ -4,8 +4,6 @@ import { Fragment } from 'react'
 
 import DemoLayout from '@/components/layouts/DemoLayout'
 
-const IntroductionD3 = dynamic(() => import('@/components/demo/IntroductionD3'))
-
 const PageComponent = () => {
   return (
     <Fragment>

@@ -31,13 +31,13 @@ const DemoLayout = ({ children }) => {
       path: '/demo/d3-idnic-member-distribution',
     },
     {
-      title: 'World Map Covid Case',
-      path: '/demo/d3-world-map-covid-case',
+      title: 'World Map Data Center',
+      path: '/demo/d3-world-map-data-center',
     },
-    {
-      title: 'APJII-IDNIC Data Center Locations',
-      path: '/demo/d3-apjii-idnic-data-center-location',
-    },
+    // {
+    //   title: 'APJII-IDNIC Data Center Locations',
+    //   path: '/demo/d3-apjii-idnic-data-center-location',
+    // },
   ]
 
   return (

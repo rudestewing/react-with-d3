@@ -131,12 +131,12 @@ const WorldMapChart = () => {
 
     contentGroup
       .selectAll('path')
-      .data(countries.features)
+      .data([...countries.features].sort((a, b) => b.population - a.population))
       .enter()
       .append('path')
       .attr('d', path)
       .attr('class', 'country')
-      .attr('fill', (d) => colorScale(d.population))
+      // .attr('fill', (d) => colorScale(d.population))
       .on('mouseover', (e, d) => {
         tooltip.style('display', 'block')
       })
@@ -164,6 +164,14 @@ const WorldMapChart = () => {
         tooltip.style('display', 'none')
       })
       .attr('transform', `translate(${margin.left}, ${margin.top})`)
+      .attr('fill', 'transparent')
+
+    contentGroup
+      .selectAll('path')
+      .transition()
+      .duration(800)
+      .attr('fill', (d) => colorScale(d.population))
+      .delay((d, i) => i * 50)
   }
 
   function fetchData() {
