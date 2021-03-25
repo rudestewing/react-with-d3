@@ -4,7 +4,7 @@ import { Fragment } from 'react'
 
 import DemoLayout from '@/components/layouts/DemoLayout'
 
-const BarChart = dynamic(() => import('@/components/demo/BarChart.js'))
+const BarChart = dynamic(() => import('@/components/demo/BarChart'))
 
 const PageComponent = () => {
   return (

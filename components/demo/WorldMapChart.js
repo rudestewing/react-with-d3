@@ -28,8 +28,6 @@ import legend from '../../utils/extensions/d3/color-legend'
 
 const WorldMapChart = () => {
   const svgRef = useRef(null)
-  const projection = useMemo(() => geoNaturalEarth1().translate([400, 250]))
-  const path = useMemo(() => geoPath().projection(projection))
 
   const [chartData, setChartData] = useState({
     worldMapData: null,
@@ -53,6 +51,11 @@ const WorldMapChart = () => {
 
     const innerWidth = width - margin.left - margin.right
     const innerHeight = height - margin.top - margin.bottom
+    const projection = geoNaturalEarth1().translate([
+      innerWidth / 2,
+      innerHeight / 2,
+    ])
+    const path = geoPath().projection(projection)
 
     const populationById = {}
 

@@ -1,9 +1,24 @@
-import { Fragment } from 'react'
+import { Fragment, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { ChevronLeft, ChevronRight } from 'react-feather'
+import { animated, useSpring } from 'react-spring'
 
 const DemoLayout = ({ children }) => {
   const router = useRouter()
+  const [showMenu, setShowMenu] = useState(true)
+
+  const stylePropsMenu = useSpring(
+    showMenu
+      ? {
+          opacity: 1,
+          display: 'block',
+        }
+      : {
+          opacity: 0,
+          display: 'none',
+        }
+  )
 
   const menus = [
     {
@@ -31,24 +46,36 @@ const DemoLayout = ({ children }) => {
       path: '/demo/d3-idnic-member-distribution',
     },
     {
-      title: 'World Map Data Center',
-      path: '/demo/d3-world-map-data-center',
+      title: 'World Map',
+      path: '/demo/d3-world-map-case',
     },
-    // {
-    //   title: 'APJII-IDNIC Data Center Locations',
-    //   path: '/demo/d3-apjii-idnic-data-center-location',
-    // },
   ]
+
+  function toggleMenu() {
+    setShowMenu((state) => !state)
+  }
 
   return (
     <div className="h-full">
       <div className="w-full block p-3 bg-blue-900">
-        <h3 className="text-left font-semibold text-white tracking-wider">
-          Exercise Chart with d3JS
-        </h3>
+        <div className="flex">
+          <div className="cursor-pointer px-2" onClick={toggleMenu}>
+            {showMenu ? (
+              <ChevronLeft color="white" />
+            ) : (
+              <ChevronRight color="white" />
+            )}
+          </div>
+          <h3 className="text-left font-semibold text-white tracking-wider">
+            Exercise Chart with d3JS
+          </h3>
+        </div>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 h-full">
-        <div className="col-span-1 lg:col-span-2 h-auto lg:h-full bg-blue-800">
+        <animated.div
+          style={stylePropsMenu}
+          className={`col-span-1 lg:col-span-2 h-auto lg:h-full bg-blue-800`}
+        >
           <ul>
             {menus.map((menu) => {
               return (
@@ -69,7 +96,7 @@ const DemoLayout = ({ children }) => {
               )
             })}
           </ul>
-        </div>
+        </animated.div>
         <div className="col-span-1 lg:col-span-10">
           <div>{children.content || <Fragment />}</div>
         </div>

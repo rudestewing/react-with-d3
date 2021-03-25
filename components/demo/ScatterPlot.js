@@ -11,7 +11,6 @@ import {
   min,
   extent,
 } from 'd3'
-import styles from './BarChart.module.scss'
 import { useEffect, useRef } from 'react'
 
 const BarChart = () => {
@@ -125,12 +124,7 @@ const BarChart = () => {
 
   return (
     <div>
-      <svg
-        className={styles.barChart}
-        width="960"
-        height="500"
-        ref={svgRef}
-      ></svg>
+      <svg width="960" height="500" ref={svgRef}></svg>
     </div>
   )
 }
