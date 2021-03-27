@@ -38,7 +38,7 @@ const DemoLayout = ({ children }) => {
       path: '/demo/d3-area',
     },
     {
-      title: 'World Map Population',
+      title: 'World Map Country Population',
       path: '/demo/d3-world-map',
     },
     {
@@ -46,8 +46,12 @@ const DemoLayout = ({ children }) => {
       path: '/demo/d3-idnic-member-distribution',
     },
     {
-      title: 'World Map',
-      path: '/demo/d3-world-map-case',
+      title: 'World Map (Cities Population)',
+      path: '/demo/d3-world-map-cities-population',
+    },
+    {
+      title: 'Missing & Death Migrant',
+      path: '/demo/d3-missing-death-migrant',
     },
   ]
 

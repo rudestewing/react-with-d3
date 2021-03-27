@@ -167,14 +167,7 @@ const WorldMapChart = () => {
         tooltip.style('display', 'none')
       })
       .attr('transform', `translate(${margin.left}, ${margin.top})`)
-      .attr('fill', 'transparent')
-
-    contentGroup
-      .selectAll('path')
-      .transition()
-      .duration(800)
       .attr('fill', (d) => colorScale(d.population))
-      .delay((d, i) => i * 50)
   }
 
   function fetchData() {
