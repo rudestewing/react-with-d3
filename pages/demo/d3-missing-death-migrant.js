@@ -3,9 +3,7 @@ import Head from 'next/head'
 import { Fragment } from 'react'
 
 import DemoLayout from '@/components/layouts/DemoLayout'
-const MissingDeathBar = dynamic(() =>
-  import('@/components/demo/MissingDeathBar')
-)
+const MissingMigrant = dynamic(() => import('@/components/demo/MissingMigrant'))
 
 const PageComponent = () => {
   return (
@@ -14,7 +12,7 @@ const PageComponent = () => {
         {{
           content: (
             <div className="container mx-auto">
-              <MissingDeathBar />
+              <MissingMigrant />
             </div>
           ),
         }}

@@ -141,6 +141,9 @@ const IdnicMemberDistributionChart = () => {
 
   return (
     <div>
+      <h3 className="mb-5 text-lg font-semibold tracking-wider">
+        IDNIC Members Distribution
+      </h3>
       <svg
         className="idnic-member-distribution"
         width="1000"

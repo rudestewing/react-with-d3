@@ -23,6 +23,9 @@ const WorldMapCase = () => {
 
   return (
     <div>
+      <h3 className="mb-5 text-lg font-semibold tracking-wider">
+        World Map Cities Population Chart
+      </h3>
       <svg width={width} height={height}>
         <Marks worldAtlas={worldAtlas} cities={cities}></Marks>
       </svg>

@@ -200,6 +200,9 @@ const WorldMapChart = () => {
 
   return (
     <div>
+      <h3 className="mb-5 text-lg font-semibold tracking-wider">
+        World Map Population
+      </h3>
       <svg
         className="world-map-population"
         width="960"
