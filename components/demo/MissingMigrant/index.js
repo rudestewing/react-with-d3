@@ -1,52 +1,48 @@
-import { csv } from 'd3'
-
-import { useState, useEffect } from 'react'
-import Bar from './Bar'
-import useData from './useData'
+import DateHistogramBar from './DateHistogramBar'
+import useMissingMigrantsData from '../../../hooks/useMissingMigrantsData'
 import WorldMap from './WorldMap'
+import useWorldAtlas from 'hooks/useWorldAtlas'
 
-const margin = {
-  top: 30,
-  right: 30,
-  bottom: 90,
-  left: 90,
+const dimensionsWorldMap = {
+  width: 960,
+  height: 500,
 }
 
-const width = 960
-const height = 500
-
-const innerWidth = width - margin.left - margin.right
-const innerHeight = height - margin.top - margin.bottom
+const dimensionsDateHistogramBar = {
+  width: 960,
+  height: 150,
+}
 
 const MissingMigrant = () => {
-  const [data, setData] = useState([])
-
-  useEffect(() => {
-    csv('/data/MissingMigrants-Global-2021-03-27T05-02-23.csv', (d) => {
-      return {
-        date: new Date(d['Reported Date']),
-        total: parseFloat(d['Total Dead and Missing']),
-        coordinate: d['Location Coordinates'],
-      }
-    }).then((responseData) => {
-      setData((state) => [...responseData])
-    })
-  }, [])
+  const data = useMissingMigrantsData()
+  const worldAtlas = useWorldAtlas()
 
   return (
     <div>
+      <h3 className="mb-3 font-semibold text-lg">Missing Migrants Data</h3>
       {data.length && (
-        <div>
-          <WorldMap data={data} />
-          <Bar
-            data={data}
-            margin={margin}
-            width={width}
-            height={height}
-            innerWidth={innerWidth}
-            innerHeight={innerHeight}
-          />
-        </div>
+        <>
+          <svg
+            aria-label="worldMap"
+            width={dimensionsWorldMap.width}
+            height={dimensionsWorldMap.height}
+          >
+            <WorldMap data={data} worldAtlas={worldAtlas} />
+          </svg>
+          <svg
+            aria-label="dateHistogramBar"
+            width={dimensionsDateHistogramBar.width}
+            height={dimensionsDateHistogramBar.height}
+          >
+            <g>
+              <DateHistogramBar
+                data={data}
+                width={dimensionsDateHistogramBar.width}
+                height={dimensionsDateHistogramBar.height}
+              />
+            </g>
+          </svg>
+        </>
       )}
     </div>
   )

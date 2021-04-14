@@ -17,6 +17,7 @@ const BarAxisBottom = (props) => {
           dy=".71em"
           y={innerHeight + tickOffset}
           fill="635F5D"
+          fontSize="0.5em"
         >
           {timeFormat('%m/%d/%Y')(value)}
         </text>
