@@ -1,4 +1,4 @@
-import { useRef, useEffect, useCallback } from 'react'
+import { useRef, useEffect, useCallback, useMemo } from 'react'
 import {
   scaleLinear,
   scaleTime,
@@ -32,10 +32,11 @@ const Bar = (props) => {
   const yValue = (d) => d.total
   const yAxisLabel = 'Total Dead and Missing'
 
-  const xScale = scaleTime()
-    .domain(extent(data, xValue))
-    .range([0, innerWidth])
-    .nice()
+  const xScale = useMemo(
+    () =>
+      scaleTime().domain(extent(data, xValue)).range([0, innerWidth]).nice(),
+    [data, xValue, innerWidth]
+  )
 
   const handleBrushChange = useCallback(
     debounce((e) => {
@@ -63,9 +64,13 @@ const Bar = (props) => {
       }
     })
 
-  const yScale = scaleLinear()
-    .domain([0, max(binnedData, (d) => d.y)])
-    .range([innerHeight, 0])
+  const yScale = useMemo(
+    () =>
+      scaleLinear()
+        .domain([0, max(binnedData, (d) => d.y)])
+        .range([innerHeight, 0]),
+    [data, innerHeight]
+  )
 
   useEffect(() => {
     const brush = brushX().extent([

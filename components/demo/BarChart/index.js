@@ -2,7 +2,6 @@ import { csv, max, scaleLinear, scaleBand, format, select } from 'd3'
 import { useEffect, useRef, useState } from 'react'
 import { CSSTransition } from 'react-transition-group'
 import { useSpring, animated } from 'react-spring'
-import { Spring } from 'react-spring/renderprops'
 
 const width = 960
 const height = 500
@@ -16,6 +15,25 @@ const margin = {
 
 const innerWidth = width - margin.left - margin.right
 const innerHeight = height - margin.top - margin.bottom
+
+const AnimatedRectBar = ({ width, ...restProps }) => {
+  const springProps = useSpring({
+    from: {
+      width: 0,
+    },
+    to: {
+      width,
+    },
+  })
+
+  return (
+    <animated.rect
+      style={springProps}
+      width={width}
+      {...restProps}
+    ></animated.rect>
+  )
+}
 
 const BarChart = () => {
   const svgRef = useRef(null)
@@ -40,8 +58,6 @@ const BarChart = () => {
     .domain(populationData.map((d) => d.country))
     .range([0, innerHeight])
     .padding(0.2)
-
-  console.log(yScale.domain(), xScale.ticks())
 
   useEffect(() => {
     fetchData()
@@ -75,24 +91,13 @@ const BarChart = () => {
           {populationData.length &&
             populationData.map((d, index) => {
               return (
-                <Spring
-                  from={{
-                    width: 0,
-                  }}
-                  to={{
-                    width: xScale(d.population),
-                  }}
-                >
-                  {(springProps) => (
-                    <rect
-                      key={index}
-                      y={yScale(d.country)}
-                      width={springProps.width}
-                      height={yScale.bandwidth()}
-                      fill={'steelblue'}
-                    ></rect>
-                  )}
-                </Spring>
+                <AnimatedRectBar
+                  key={index}
+                  y={yScale(d.country)}
+                  width={xScale(d.population)}
+                  height={yScale.bandwidth()}
+                  fill={'steelblue'}
+                />
               )
             })}
         </g>
