@@ -4,7 +4,6 @@ const BarAxisBottom = (props) => {
   const { xScale, innerHeight, tickOffset = 3 } = props
 
   return xScale.ticks().map((value) => {
-    console.log(xScale(value))
     return (
       <g
         key={value}

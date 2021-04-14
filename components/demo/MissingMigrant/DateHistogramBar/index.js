@@ -1,17 +1,18 @@
+import { useRef, useEffect, useCallback } from 'react'
 import {
-  csv,
   scaleLinear,
   scaleTime,
   max,
-  timeFormat,
   extent,
   bin,
   timeMonths,
   sum,
-  timeMonth,
+  brushX,
+  select,
 } from 'd3'
 import BarAxisBottom from './BarAxisBottom'
 import BarAxisLeft from './BarAxisLeft'
+import { debounce } from 'lodash'
 
 const margin = { top: 0, right: 30, bottom: 20, left: 45 }
 
@@ -19,7 +20,8 @@ const xAxisLabelOffset = 54
 const yAxisLabelOffset = 30
 
 const Bar = (props) => {
-  const { data, width, height } = props
+  const { data, width, height, setBrushExtent } = props
+  const brushRef = useRef(null)
 
   const innerWidth = width - margin.left - margin.right
   const innerHeight = height - margin.top - margin.bottom
@@ -35,6 +37,18 @@ const Bar = (props) => {
     .range([0, innerWidth])
     .nice()
 
+  const handleBrushChange = useCallback(
+    debounce((e) => {
+      if (e.selection) {
+        const from = xScale.invert(e.selection[0])
+        const to = xScale.invert(e.selection[1])
+        setBrushExtent([from, to])
+      } else {
+        setBrushExtent([])
+      }
+    }, 100)
+  )
+
   const [start, stop] = xScale.domain()
 
   const binnedData = bin()
@@ -42,7 +56,6 @@ const Bar = (props) => {
     .domain(xScale.domain())
     .thresholds(timeMonths(start, stop))(data)
     .map((array) => {
-      console.log()
       return {
         y: sum(array, yValue),
         x0: array.x0,
@@ -53,6 +66,23 @@ const Bar = (props) => {
   const yScale = scaleLinear()
     .domain([0, max(binnedData, (d) => d.y)])
     .range([innerHeight, 0])
+
+  useEffect(() => {
+    const brush = brushX().extent([
+      [0, 0],
+      [innerWidth, innerHeight],
+    ])
+
+    brush(select(brushRef.current))
+
+    brush
+      .on('brush', (e) => {
+        // handleBrushChange(e)
+      })
+      .on('end', (e) => {
+        handleBrushChange(e)
+      })
+  }, [innerWidth, innerHeight])
 
   return (
     <g transform={`translate(${margin.left}, ${margin.top})`}>
@@ -92,6 +122,7 @@ const Bar = (props) => {
           </rect>
         )
       })}
+      <g ref={brushRef} />
     </g>
   )
 }

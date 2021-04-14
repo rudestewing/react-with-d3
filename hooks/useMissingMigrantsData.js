@@ -12,6 +12,10 @@ export const useMissingMigrantsData = () => {
         coordinate: d['Location Coordinates']
           .split(',')
           .map((d) => parseFloat(d)),
+        coords: d['Location Coordinates']
+          .split(',')
+          .map((d) => +d)
+          .reverse(),
       }
     }).then((responseData) => {
       setData((state) => [...responseData])

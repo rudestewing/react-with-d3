@@ -17,6 +17,7 @@
     "framer-motion": "^4.0.0",
     "gridjs": "^3.3.0",
     "gridjs-react": "^3.2.2",
+    "lodash": "^4.17.21",
     "next": "10.0.8",
     "postcss": "^8.2.8",
     "react": "17.0.1",
